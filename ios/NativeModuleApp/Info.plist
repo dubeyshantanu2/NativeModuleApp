@@ -24,6 +24,12 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to the camera to take photos and videos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to the microphone to record audio.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We need access to send you notifications.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
