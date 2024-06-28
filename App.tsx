@@ -1,118 +1,100 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+import {Button, View, Alert, Linking} from 'react-native';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  checkCameraPermission,
+  checkMicrophonePermission,
+  checkNotificationPermission,
+} from './PermissionsModule';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  const handleCheckCameraPermissions = async () => {
+    const cameraGranted = await checkCameraPermission();
+    console.log('Camera Permission:', cameraGranted);
+    if (!cameraGranted) {
+      Alert.alert(
+        'Camera Permission Denied',
+        'Please enable camera permission in settings',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'Open Settings', onPress: () => Linking.openSettings()},
+        ],
+      );
+    }
+  };
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const handleCheckMicrophonePermissions = async () => {
+    const microphoneGranted = await checkMicrophonePermission();
+    console.log('Microphone Permission:', microphoneGranted);
+    if (!microphoneGranted) {
+      Alert.alert(
+        'Microphone Permission Denied',
+        'Please enable microphone permission in settings',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'Open Settings', onPress: () => Linking.openSettings()},
+        ],
+      );
+    }
+  };
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const handleCheckNotificationPermissions = async () => {
+    const notificationGranted = await checkNotificationPermission();
+    console.log('Notification Permission:', notificationGranted);
+    if (!notificationGranted) {
+      Alert.alert(
+        'Notification Permission Denied',
+        'Please enable notification permission in settings',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'Open Settings', onPress: () => Linking.openSettings()},
+        ],
+      );
+    }
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <View
+      style={{
+        flex: 1,
+      }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'red',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Button
+          title="Check Camera Permissions"
+          onPress={handleCheckCameraPermissions}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'orange',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Button
+          title="Check Microphone Permissions"
+          onPress={handleCheckMicrophonePermissions}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'yellow',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Button
+          title="Check Notification Permissions"
+          onPress={handleCheckNotificationPermissions}
+        />
+      </View>
+    </View>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+};
 
 export default App;
