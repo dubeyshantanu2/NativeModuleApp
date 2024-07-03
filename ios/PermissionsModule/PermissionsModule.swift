@@ -1,5 +1,6 @@
 import Foundation
 import AVFoundation
+import Photos
 import UserNotifications
 
 @objc(PermissionsModule)
@@ -58,6 +59,28 @@ class PermissionsModule: NSObject {
             @unknown default:
                 reject("UNKNOWN", "Unknown authorization status", nil)
             }
+        }
+    }
+
+    @objc
+    func checkPhotoPermission(_ resolve: @escaping RCTPromiseResolveBlock, rejecter reject: @escaping RCTPromiseRejectBlock) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            resolve(true)
+        case .denied, .restricted:
+            resolve(false)
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { status in
+                switch status {
+                case .authorized:
+                    resolve(true)
+                default:
+                    resolve(false)
+                }
+            }
+        @unknown default:
+            reject("UNKNOWN", "Unknown authorization status", nil)
         }
     }
 }

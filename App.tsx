@@ -4,6 +4,7 @@ import {
   checkCameraPermission,
   checkMicrophonePermission,
   checkNotificationPermission,
+  checkPhotoPermission,
 } from './PermissionsModule';
 
 const App = () => {
@@ -52,6 +53,21 @@ const App = () => {
     }
   };
 
+  const handleCheckPhotoPermissions = async () => {
+    const photoGranted = await checkPhotoPermission();
+    console.log('Photo Permission:', photoGranted);
+    if (!photoGranted) {
+      Alert.alert(
+        'Photo Library Permission Denied',
+        'Please enable photo library permission in settings',
+        [
+          {text: 'Cancel', style: 'cancel'},
+          {text: 'Open Settings', onPress: () => Linking.openSettings()},
+        ],
+      );
+    }
+  };
+
   return (
     <View
       style={{
@@ -91,6 +107,18 @@ const App = () => {
         <Button
           title="Check Notification Permissions"
           onPress={handleCheckNotificationPermissions}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'purple',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Button
+          title="Check Photos Permissions"
+          onPress={handleCheckPhotoPermissions}
         />
       </View>
     </View>

@@ -31,3 +31,13 @@ export const checkNotificationPermission = async () => {
     return false;
   }
 };
+
+export const checkPhotoPermission = async () => {
+  try {
+    const granted = await PermissionsModule.checkPhotoPermission();
+    return granted;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
